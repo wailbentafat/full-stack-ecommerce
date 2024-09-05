@@ -3,7 +3,7 @@ package jwt
 import (
 	"time"
 	jwt "github.com/golang-jwt/jwt/v5"
-	"backend/pkg/config"
+	s"github.com/wailbentafat/full-stack-ecommerce/backend/pkg/config"
 )
 
 
@@ -12,7 +12,7 @@ func GenerateJWT(email string) (string, error) {
 		jwt.MapClaims{
 			"email":email,
 			"exp":time.Now().Add(time.Hour * 100).Unix(),
-		}).SignedString([]byte(config.config("SECRET_KEY")))
+		}).SignedString([]byte(s.SecretKey))
 		if err!=nil{
 			return "",err
 		}
