@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom"
  const ShopContextProvider = (props) =>{
 
     const currency = ' DA'
-    const delivery_fee =10;
+    const [delivery_fee , setDelivery_fee] = useState(0);
     const [search ,setSearch]=useState('');
     const[showSearch ,setShowSearch] = useState(false);
     const [cartItems,setCartItems] = useState({})
@@ -82,7 +82,7 @@ import { useNavigate } from "react-router-dom"
 
 
     const value ={
-        products, currency ,delivery_fee,
+        products, currency ,delivery_fee,setDelivery_fee,
         search ,setSearch ,showSearch ,setShowSearch,cartItems,
         addToCart,getCartCount,updateQuantity,getCartAmount,navigate
     }
