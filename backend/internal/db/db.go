@@ -26,7 +26,7 @@ func InitDb(datasourcename string) (*sql.DB, error)  {
 		"image" TEXT NOT NULL,
 		"description" TEXT NOT NULL,
 		"category" TEXT NOT NULL,
-		"quantity" INTEGER NOT NULL,
+		"quantity" INTEGER NOT NULL
 	)`
 
 	_,err=db.Exec(createtablesql)

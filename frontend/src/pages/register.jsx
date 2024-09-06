@@ -1,50 +1,55 @@
-import React, { useContext, useState } from 'react';
-import { ShopContext } from '../context/ShopContext';
+import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-const Login = () => {
-  const[email,setEmail]=useState('');
-  const[password,setPassword]=useState('');
-  const navigate = useNavigate();
+
+const Register = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-   const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     setError(null);
+
     try {
-      const response = await axios.post('http://localhost:8080/login', {
+      const response = await axios.post('http://localhost:8080/register', {
         email,
         password,
       }, {
         headers: {
-          'Content-Type': 'application/json', 
-         
+          'Content-Type': 'application/json',
         },
       });
-      const data = await response.json();
-      if (data.success) {
+
+      console.log(response.data);
+      const data = response.data;
+
+      if (data.token) {
+        
         Cookies.set('token', data.token);
         navigate('/');
       } else {
-        setError(data.error);
+        
+        setError(data.error || 'An error occurred');
+        console.log(data.error);
       }
     } catch (error) {
+     console.log(error)
       setError('An error occurred. Please try again later.');
     }
+
     setLoading(false);
   };
-  const handleclick = () => {
-    navigate('/register');
-  };
-  
+
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="w-1/3 bg-white p-8 rounded shadow">
-        <h1 className="text-2xl font-bold mb-4">Login</h1>
-        <form onSubmit={handleSubmit}> 
+        <h1 className="text-2xl font-bold mb-4">Register</h1>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
               Email
@@ -75,25 +80,15 @@ const Login = () => {
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
+              disabled={loading}
             >
-              Login
+              {loading ? 'Registering...' : 'Register'}
             </button>
-            <a
-              className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-              href="#"
-            >
-              Forgot Password?
-            </a>
-
-            <button >
-              <a onClick={handleclick} className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Register</a>
-            </button>
+            {error && <p className="text-red-500">{error}</p>}
           </div>
         </form>
       </div>
     </div>
   );
-            
 };
-
-export default Login;
+export default Register;

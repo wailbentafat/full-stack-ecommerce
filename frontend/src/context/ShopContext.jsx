@@ -81,44 +81,12 @@ import { useNavigate } from "react-router-dom"
     }
     const [user, setUser] = useState(null);
 
-    const signIn = async (email, password) => {
-      try {
-        // Call API to sign in
-        const response = await fetch('http://localhost:8080/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email, password }),
-        });
-        const data = await response.json();
-        setUser(data.user);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-  
-    const signUp = async ( email, password) => {
-      try {
-        // Call API to sign up
-        const response = await fetch('http://localhost:8080/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email, password }),
-        });
-        const data = await response.json();
-        setUser(data.user);
-        } catch (error) {
-          console.error(error);
-          }
-          }
+   
 
     const value ={
         products, currency ,delivery_fee,setDelivery_fee,
         search ,setSearch ,showSearch ,setShowSearch,cartItems,
-        addToCart,getCartCount,updateQuantity,getCartAmount,navigate,user,signIn,signUp
+        addToCart,getCartCount,updateQuantity,getCartAmount,navigate,user
     }
     return(
         <ShopContext.Provider value={value}>
