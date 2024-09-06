@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom"
  const ShopContextProvider = (props) =>{
 
     const currency = ' DA'
-    const delivery_fee =10;
+    const [delivery_fee , setDelivery_fee] = useState(0);
     const [search ,setSearch]=useState('');
     const[showSearch ,setShowSearch] = useState(false);
     const [cartItems,setCartItems] = useState({})
@@ -79,12 +79,46 @@ import { useNavigate } from "react-router-dom"
         }
         return totalAmount ;
     }
+    const [user, setUser] = useState(null);
 
+    const signIn = async (email, password) => {
+      try {
+        // Call API to sign in
+        const response = await fetch('http://localhost:8080/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
+        const data = await response.json();
+        setUser(data.user);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    const signUp = async ( email, password) => {
+      try {
+        // Call API to sign up
+        const response = await fetch('http://localhost:8080/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
+        const data = await response.json();
+        setUser(data.user);
+        } catch (error) {
+          console.error(error);
+          }
+          }
 
     const value ={
-        products, currency ,delivery_fee,
+        products, currency ,delivery_fee,setDelivery_fee,
         search ,setSearch ,showSearch ,setShowSearch,cartItems,
-        addToCart,getCartCount,updateQuantity,getCartAmount,navigate
+        addToCart,getCartCount,updateQuantity,getCartAmount,navigate,user,signIn,signUp
     }
     return(
         <ShopContext.Provider value={value}>
