@@ -11,3 +11,4 @@ func SecureRoutes(router *gin.Engine) {
 		c.JSON(200, gin.H{"message": "Hello, World!"})
 	})
 }
+//changeit to get profile

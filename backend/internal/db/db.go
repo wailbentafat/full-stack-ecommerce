@@ -18,7 +18,16 @@ func InitDb(datasourcename string) (*sql.DB, error)  {
 		"id" INTEGER PRIMARY KEY AUTOINCREMENT,
 		"email" TEXT NOT NULL UNIQUE,
 		"password" TEXT NOT NULL
-	);`
+	);
+	CREATE TABLE IF NOT EXISTS product (
+		"id" INTEGER PRIMARY KEY AUTOINCREMENT,
+		"name" TEXT NOT NULL UNIQUE,
+		"price" INTEGER NOT NULL,
+		"image" TEXT NOT NULL,
+		"description" TEXT NOT NULL,
+		"category" TEXT NOT NULL,
+		"quantity" INTEGER NOT NULL,
+	)`
 
 	_,err=db.Exec(createtablesql)
 	if err!= nil {
