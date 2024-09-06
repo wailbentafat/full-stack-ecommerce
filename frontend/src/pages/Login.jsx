@@ -9,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
 
-  const { signIn, signUp  , user } = useContext(ShopContext);
+  const { signIn, signUp ,user} = useContext(ShopContext);
 
 
   const handleSubmit = async (event) => {
@@ -17,7 +17,7 @@ const Login = () => {
     if (formState === 'login') {
       await signIn(email, password);
     } else {
-      await signUp(name, email, password);
+      await signUp( email, password);
     }
   };
 
