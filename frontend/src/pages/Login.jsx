@@ -12,27 +12,10 @@ const Login = () => {
 
    const handleSubmit = async(event) => {
     event.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.post('http://localhost:8080/login', {
-        email,
-        password,
-      }, {
-        headers: {
-          'Content-Type': 'application/json', 
-         
-        },
-      });
-      const data = await response.json();
-      if (data.success) {
-        Cookies.set('token', data.token);
-        navigate('/');
-      } else {
-        setError(data.error);
-      }
-    } catch (error) {
-      setError('An error occurred. Please try again later.');
+    if (formState === 'login') {
+      await signIn(email, password);
+    } else {
+      await signUp(name, email, password);
     }
     setLoading(false);
   };
