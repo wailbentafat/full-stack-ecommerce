@@ -1,24 +1,50 @@
-import React, { useContext, useState } from 'react';
-import { ShopContext } from '../context/ShopContext';
+import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-const Login = () => {
-  const[email,setEmail]=useState('');
-  const[password,setPassword]=useState('');
-  const navigate = useNavigate();
+
+const Register = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-   const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (formState === 'login') {
-      await signIn(email, password);
-    } else {
-      await signUp(name, email, password);
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.post('http://localhost:8080/login', {
+        email,
+        password,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('Response Status:', response.status);
+      console.log(response.data);
+      const data = response.data;
+
+      if (data.token) {
+        
+        Cookies.set('token', data.token);
+        navigate('/');
+      } else {
+        
+        setError(data.error || 'An error occurred');
+        console.log(data.error);
+      }
+    } catch (error) {
+     console.log(error)
+      setError('An error occurred. Please try again later.');
     }
+
     setLoading(false);
   };
+
   const handleclick = () => {
     navigate('/register');
   };

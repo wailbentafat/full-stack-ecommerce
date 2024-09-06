@@ -24,7 +24,7 @@ const Register = () => {
           'Content-Type': 'application/json',
         },
       });
-
+      console.log('Response Status:', response.status);
       console.log(response.data);
       const data = response.data;
 
