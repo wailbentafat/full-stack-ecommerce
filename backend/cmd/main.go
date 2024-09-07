@@ -27,10 +27,8 @@ func main() {
 
     router := gin.Default()
 
-    // Apply CORS middleware before defining routes
     router.Use(cors.New(corsConfig))
 
-    // Define routes
     routes.AuthRoutes(router, database)
     routes.SecureRoutes(router)
 
