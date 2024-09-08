@@ -13,9 +13,9 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import SearchBar from './components/SearchBar'
 import Register from './pages/register'
-import ProtectedRoute from './context/protectedroutes'
 import { ToastContainer , toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Secureroute from './utils/secureroute'
 const App = () => {
   return (
     <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
@@ -31,12 +31,15 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        //secure routes
-        <Route path="/place-order" element={<ProtectedRoute element={<PlaceOrder />} />} />
-        <Route path="/orders" element={<ProtectedRoute element={<Orders />} />} />
+        <Route element={<Secureroute />}>
+        <Route path="/place-order" element={<PlaceOrder />} />
+        <Route path="/orders" element={<Orders />} />
+        </Route>
       </Routes>
       <Footer />
+     
     </div>
+    
   )
 }
 
