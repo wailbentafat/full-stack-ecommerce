@@ -91,7 +91,9 @@ import { useNavigate } from "react-router-dom"
           },
           body: JSON.stringify({ email, password }),
         });
+        if(!response.ok) throw new Error('Sign in failed')
         const data = await response.json();
+        Cookies.set('authToken',data.token,{expires:10})
         setUser(data.user);
       } catch (error) {
         console.error(error);
