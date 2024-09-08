@@ -8,10 +8,11 @@ import (
     "github.com/gin-gonic/gin"
     "github.com/wailbentafat/full-stack-ecommerce/backend/internal/db"
     "github.com/wailbentafat/full-stack-ecommerce/backend/internal/auth/routes"
-)
+    "github.com/wailbentafat/full-stack-ecommerce/backend/internal/product/routes"
+    )
 func main() {
     corsConfig := cors.Config{
-        AllowOrigins:     []string{"http://localhost:5173"}, // Use specific origin for better security
+        AllowOrigins:     []string{"http://localhost:5173"}, 
         AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
         AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
         ExposeHeaders:    []string{"Content-Length"},
@@ -31,6 +32,7 @@ func main() {
 
     routes.AuthRoutes(router, database)
     routes.SecureRoutes(router)
+    product_routes.Routes(router)
 
     err = http.ListenAndServe(":8080", router)
     if err != nil {
