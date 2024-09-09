@@ -3,13 +3,22 @@ package main
 import (
     "log"
     "net/http"
+    "time"
+    "github.com/gin-contrib/cors"
     "github.com/gin-gonic/gin"
     "github.com/wailbentafat/full-stack-ecommerce/backend/internal/db"
     "github.com/wailbentafat/full-stack-ecommerce/backend/internal/auth/routes"
-   
-)
-
+    "github.com/wailbentafat/full-stack-ecommerce/backend/internal/product/routes"
+    )
 func main() {
+    corsConfig := cors.Config{
+        AllowOrigins:     []string{"http://localhost:5173"}, 
+        AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+        AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+        ExposeHeaders:    []string{"Content-Length"},
+        AllowCredentials: false,
+        MaxAge:           12 * time.Hour,
+    }
 
     database, err := db.InitDb("database.db")
     if err != nil {
@@ -17,15 +26,15 @@ func main() {
     }
     defer database.Close()
 
-  
     router := gin.Default()
 
+    router.Use(cors.New(corsConfig))
 
     routes.AuthRoutes(router, database)
     routes.SecureRoutes(router)
-   
-    err = http.ListenAndServe(":8080", router)
+    product_routes.Routes(router)
 
+    err = http.ListenAndServe(":8080", router)
     if err != nil {
         log.Fatal(err)
     }

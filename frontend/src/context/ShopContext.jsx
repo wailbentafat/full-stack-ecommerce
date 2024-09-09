@@ -91,9 +91,7 @@ import { useNavigate } from "react-router-dom"
           },
           body: JSON.stringify({ email, password }),
         });
-        if(!response.ok) throw new Error('Sign in failed')
         const data = await response.json();
-        Cookies.set('authToken',data.token,{expires:10})
         setUser(data.user);
       } catch (error) {
         console.error(error);
@@ -120,7 +118,7 @@ import { useNavigate } from "react-router-dom"
     const value ={
         products, currency ,delivery_fee,setDelivery_fee,
         search ,setSearch ,showSearch ,setShowSearch,cartItems,
-        addToCart,getCartCount,updateQuantity,getCartAmount,navigate,user,signIn,signUp
+        addToCart,getCartCount,updateQuantity,getCartAmount,navigate,user
     }
     return(
         <ShopContext.Provider value={value}>
