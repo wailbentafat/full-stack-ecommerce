@@ -34,10 +34,11 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
+        
+		authenticated:=true
 		
 		c.Set("email", claims)
-
+        c.Set("isauthenticated", authenticated)
 		
 		c.Next()
 	}

@@ -19,6 +19,7 @@ func main() {
         AllowCredentials: false,
         MaxAge:           12 * time.Hour,
     }
+    log.Println("Server started on port 8080")
 
     database, err := db.InitDb("database.db")
     if err != nil {

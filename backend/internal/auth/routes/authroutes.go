@@ -11,4 +11,8 @@ func AuthRoutes(router *gin.Engine, db *sql.DB) {
 	authentification.SetDB(db)
 	router.POST("/register", authentification.Register)
 	router.POST("/login", authentification.Login)
+	router.POST("/forget-password", authentification.ForgetPassword)
+	router.GET("/auth/callback", authentification.Callback)
+	
 }
+

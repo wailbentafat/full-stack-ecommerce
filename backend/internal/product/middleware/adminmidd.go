@@ -46,7 +46,8 @@ func AdminMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		
+		c.Set("email", claims)
+		c.Set("isadmin", admin)
 		c.Next()
 	}
 }
