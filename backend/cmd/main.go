@@ -33,7 +33,7 @@ func main() {
 
     routes.AuthRoutes(router, database)
     routes.SecureRoutes(router)
-    product_routes.Routes(router)
+    product_routes.Routes(router, database)
 
     err = http.ListenAndServe(":8080", router)
     if err != nil {
