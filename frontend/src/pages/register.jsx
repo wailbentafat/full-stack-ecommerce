@@ -4,11 +4,34 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Register = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [fromData , setFromData] =useState({
+    email: '',
+    password: '',
+  })
+  const changeHandler =(e) =>{
+    setFromData({...fromData, [e.target.name]: e.target.value})
+  }
+  const signup =async () => {
+    console.log('Signup Function Executed' , fromData);
+    let responseData;
+    await axios.post('http://localhost:8080/register',{
+      method: 'POST',
+      headers: {
+        Accept:'application/from-data',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(fromData),
+    }).then((response)=> response.json()).then((data)=>responseData=data)
+    if(responseData.success){
+      localStorage.setItem('auth-token',responseData.token);
+      window.location.replace("/");
+    }else{
+      alert(responseData.errors)
+    }
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,8 +40,8 @@ const Register = () => {
 
     try {
       const response = await axios.post('http://localhost:8080/register', {
-        email,
-        password,
+        email:'',
+        password:'',
       }, {
         headers: {
           'Content-Type': 'application/json',
@@ -54,18 +77,20 @@ const Register = () => {
     <input
       required
       type="email"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
+      value={fromData.email}
+      name='email'
+      onChange={changeHandler}
       className="w-full px-3 py-2 border border-gray-800"
       placeholder="Email"
     />
     <input
       required
       type="password"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
+      value={fromData.password}
+      onChange={changeHandler}
       className="w-full px-3 py-2 border border-gray-800"
       placeholder="Password"
+      name='password'
       minLength={8}
     />
     <div className="w-full flex  justify-end text-sm mt-[-8px]">
@@ -74,7 +99,7 @@ const Register = () => {
         </p></Link> 
        
     </div>
-    <button  type="submit" className="bg-black text-white font-light px-8 py-2 mt-4" disabled={loading}>{loading ? 'Registering...' : 'Register'}</button>
+    <button onClick={handleSubmit} type="submit" className="bg-black text-white font-light px-8 py-2 mt-4" disabled={loading}>{loading ? 'Registering...' : 'Register'}</button>
       <div className="flex items-center justify-between">
           
             {error && <p className="text-red-500">{error}</p>}
