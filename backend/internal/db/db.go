@@ -18,6 +18,7 @@ func InitDb(datasourcename string) (*sql.DB, error) {
 	CREATE TABLE IF NOT EXISTS taille (
 		"taille" TEXT PRIMARY KEY NOT NULL,
 		"quantity" INTEGER NOT NULL
+		FOREIGN KEY ("product_id") REFERENCES product("id")
 	);
 
 	CREATE TABLE IF NOT EXISTS user (
@@ -46,6 +47,8 @@ func InitDb(datasourcename string) (*sql.DB, error) {
 		"product_id" INTEGER NOT NULL,
 		"quantity" INTEGER NOT NULL,
 		"taille" TEXT NOT NULL,
+		"date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		"price" INTEGER NOT NULL,
 		FOREIGN KEY ("user_id") REFERENCES user("id"),
 		FOREIGN KEY ("product_id") REFERENCES product("id"),
 		FOREIGN KEY ("taille") REFERENCES taille("taille")
