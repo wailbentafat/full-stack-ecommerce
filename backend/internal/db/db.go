@@ -6,9 +6,7 @@ import (
 	"log"
 )
 
-// InitDb initializes the database and creates necessary tables.
 func InitDb(datasourcename string) (*sql.DB, error) {
-	// Open the database
 	db, err := sql.Open("sqlite3", datasourcename)
 	if err != nil {
 		log.Printf("Error opening database: %v", err)
@@ -20,12 +18,15 @@ func InitDb(datasourcename string) (*sql.DB, error) {
 	CREATE TABLE IF NOT EXISTS taille (
 		"taille" TEXT PRIMARY KEY NOT NULL,
 		"quantity" INTEGER NOT NULL
+		FOREIGN KEY ("product_id") REFERENCES product("id")
 	);
 
 	CREATE TABLE IF NOT EXISTS user (
 		"id" INTEGER PRIMARY KEY AUTOINCREMENT,
 		"email" TEXT NOT NULL UNIQUE,
-		"password" TEXT NOT NULL
+		"password" TEXT NOT NULL,
+		"isadmin" BOOLEAN NOT NULL DEFAULT 0,
+	    "isauthenticated" BOOLEAN NOT NULL DEFAULT 0
 	);
 
 	CREATE TABLE IF NOT EXISTS product (
@@ -46,6 +47,8 @@ func InitDb(datasourcename string) (*sql.DB, error) {
 		"product_id" INTEGER NOT NULL,
 		"quantity" INTEGER NOT NULL,
 		"taille" TEXT NOT NULL,
+		"date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		"price" INTEGER NOT NULL,
 		FOREIGN KEY ("user_id") REFERENCES user("id"),
 		FOREIGN KEY ("product_id") REFERENCES product("id"),
 		FOREIGN KEY ("taille") REFERENCES taille("taille")
